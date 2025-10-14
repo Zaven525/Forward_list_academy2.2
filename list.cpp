@@ -4,22 +4,27 @@
 SingleList::SingleList() : _head{nullptr} {}
 SingleList::SingleList(size_t size, int val)
 {
-    _head = new Node(val);
-    --size;
-    Node* tmp = _head;
+    Node dummy;
+    Node* tmp = &dummy;
     for (size_t i = 0; i < size; i++) 
     {
         tmp->_next = new Node(val);
         tmp = tmp->_next;
     }
+    _head = dummy._next;
 } 
 
 SingleList::SingleList(std::initializer_list<int> il)
 {
+    Node dummy;
+    Node* tmp = &dummy;
+
     for (auto elem : il) 
     {
-        push_back(elem);
+        tmp->_next = new Node(elem);;
+        tmp = tmp->_next;
     }
+    _head = dummy._next;
 }
 
 SingleList::SingleList(const SingleList& other)
@@ -56,3 +61,5 @@ void SingleList::push_back(int val)
         tmp->_next = new Node(val);
     }
 }
+
+// Helper functions
