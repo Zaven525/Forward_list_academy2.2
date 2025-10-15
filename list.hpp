@@ -8,6 +8,7 @@ private:
     {
         int _val;
         Node* _next;
+        Node() : _val(0), _next(nullptr) {}
         Node(int val) : _val{val}, _next{nullptr} {}
         Node(int val, Node* next) : _val{val}, _next{next} {}
     };
