@@ -64,9 +64,14 @@ SingleList::~SingleList()
 
 
 // Operator overlosding
-SingleList& operator+(SingleList& lhs, SingleList& rhs) 
+SingleList operator+(SingleList& lhs, SingleList& rhs) 
 {
-    
+    SingleList Nlhs(lhs);
+    SingleList Nrhs = rhs;
+    SingleList::Node* tmp = Nlhs._head;
+    while (tmp->_next) tmp = tmp->_next;
+    tmp->_next = Nrhs._head;
+    return Nlhs;
 }
 
 

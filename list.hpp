@@ -28,7 +28,7 @@ public:
     ~SingleList();
 
     // Operator overloading
-    friend SingleList& operator+(SingleList& lhs, SingleList& rhs);
+    friend SingleList operator+(SingleList& lhs, SingleList& rhs);
 
     // Member functions
     void push_back(int val);
