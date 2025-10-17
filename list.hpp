@@ -28,10 +28,20 @@ public:
     ~SingleList();
 
     // Operator overloading
-    friend SingleList operator+(SingleList& lhs, SingleList& rhs);
-
+    friend SingleList operator+(const SingleList& lhs, const SingleList& rhs);
+    void operator+=(const SingleList& other);
+    friend bool operator==(const SingleList& lhs, const SingleList& rhs);
+    friend bool operator!=(const SingleList& lhs, const SingleList& rhs);
+    Node& operator[](size_t index) const;
+    bool operator!() const;
+    SingleList& operator++();
+    SingleList operator++(int);
+    
     // Member functions
+    void push_front(int val);
     void push_back(int val);
+    void pop_front();
+    void pop_back();
     // Helper functions
     void copy(const SingleList& other);
     void clear();

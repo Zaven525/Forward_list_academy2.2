@@ -64,20 +64,91 @@ SingleList::~SingleList()
 
 
 // Operator overlosding
-SingleList operator+(SingleList& lhs, SingleList& rhs) 
+SingleList operator+(const SingleList& lhs, const SingleList& rhs) 
 {
-    SingleList Nlhs(lhs);
-    SingleList Nrhs = rhs;
-    SingleList::Node* tmp = Nlhs._head;
+    SingleList result(lhs);
+    Node* tmp = result._head;
     while (tmp->_next) tmp = tmp->_next;
-    tmp->_next = Nrhs._head;
-    return Nlhs;
+    
+    Node* rtmp = rhs._head;
+    
+    while (rtmp != nullptr)
+    {
+        tmp->_next = new Node(rtmp->_val);
+        tmp = tmp->_next;
+        rtmp = rtmp->_next;
+    }
+    return result;
+}
+
+void SingleList::operator+=(const SingleList& other)
+{
+    *this = *this + other;
+}
+
+bool operator==(const SingleList& lhs, const SingleList& rhs) 
+{
+    Node* itmp = lhs._head;
+    Node* jtmp = rhs._head;
+    while(itmp && jtmp)
+    {
+        if (itmp->_val != jtmp->_val)
+        {
+            return 0;
+        }
+        itmp = itmp->_next;
+        jtmp = jtmp->_next;
+    }
+    return jtmp == nullptr && itmp == nullptr;
+}
+
+bool operator!=(const SingleList& lhs, const SingleList& rhs) 
+{
+    return !(lhs == rhs);
+}
+
+Node& SingleList::operator[](size_t index) const
+{
+    Node* tmp = _head;
+    for (size_t i = 0; i < index; i++)
+    {
+        tmp = tmp->_next; 
+    }
+
+    if (!tmp) {
+        throw std::out_of_range("Index out of bounds");
+    }
+    return *tmp;
+}
+
+bool SingleList::operator!() const
+{
+    return (_head == nullptr);
+}
+
+SingleList& SingleList::operator++() 
+{
+    push_back(0);
+    return *this;
+}
+
+SingleList SingleList::operator++(int) 
+{
+    SingleList copy(*this);
+    push_back(0);
+    return copy;
 }
 
 
 
-
 // Member functions
+void SingleList::push_front(int val)
+{
+    Node* tmp = new Node(val);
+    tmp->_next = _head;
+    _head = tmp;
+}
+
 void SingleList::push_back(int val)
 {
     if (!_head) _head = new Node(val);
@@ -92,8 +163,25 @@ void SingleList::push_back(int val)
     }
 }
 
+void SingleList::pop_front()
+{
+    if (_head)
+    {
+        Node* tmp = _head;
+        _head =  _head->_next;
+        delete tmp;
+    }
+}
 
-
+void SingleList::pop_back()
+{
+    Node* tmp = _head;
+    while(tmp->_next)
+    {
+        tmp =  tmp->_next;
+    }
+    delete tmp;
+}
 // Helper functions
 void SingleList::copy(const SingleList& other)
 {
